@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -19,12 +19,21 @@ app.get('/api/health', (_req, res) => {
   res.json({ success: true, message: 'Server is running' });
 });
 
+// ─── API Routes (to be added in Phase 4) ─────────────────────────────────────
+// app.use('/api/todos', todoRoutes);
+
 // ─── 404 for unknown API routes ───────────────────────────────────────────────
 app.use('/api/*', (req, res) => {
-  res.status(404).json({ success: false, message: `Route not found: ${req.method} ${req.originalUrl}` });
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.method} ${req.originalUrl}`,
+  });
 });
 
-// ─── Start ────────────────────────────────────────────────────────────────────
+// ─── Centralized Error Handler ────────────────────────────────────────────────
+app.use(errorHandler);
+
+// ─── Start Server ─────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
