@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "name": "Demo User",
+    "email": "demo@todoapp.local",
+    "passwordHash": "$2a$10$ZvFLaw.EQZP7uIDK59U/f.A1H/1D7BauXi9yJv/mtMcqksHA9Yz1G",
+    "createdAt": "2026-08-31T21:32:24.431Z"
+  },
+  {
+    "id": "683de1d5-7844-4bf8-9aca-123f208dc0d4",
+    "name": "Interviewer",
+    "email": "interviewer@todoapp.local",
+    "passwordHash": "$2a$10$O7JZ.YEssjr/1r0e5TnQhOTzqzZWbkACFNkZZpGKizKbPdMTV5/oi",
+    "createdAt": "2026-08-31T21:32:24.506Z"
+  }
+]

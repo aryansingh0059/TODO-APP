@@ -92,6 +92,13 @@ body {
   position: sticky;
   top: 0;
   overflow-y: auto;
+  transition: margin-left 0.2s ease, opacity 0.2s ease;
+}
+
+.sidebar--closed {
+  margin-left: calc(-1 * var(--sidebar-width));
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sidebar-header {
@@ -100,6 +107,31 @@ body {
   justify-content: space-between;
   margin-bottom: 1.25rem;
   padding: 0 0.25rem;
+}
+
+.sidebar-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.sidebar-floating-toggle {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 90;
 }
 
 .sidebar-brand {
@@ -863,6 +895,10 @@ textarea {
 
 /* ─── Responsive Media Queries ─────────────────────────────────── */
 @media (max-width: 768px) {
+  .sidebar-floating-toggle {
+    display: none;
+  }
+
   .app-layout {
     flex-direction: column;
   }
@@ -871,6 +907,9 @@ textarea {
     position: fixed;
     top: 0;
     left: -100%;
+    margin-left: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
     width: 260px;
     z-index: 200;
     transition: left 0.2s ease;
@@ -917,3 +956,151 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Sidebar User Profile ─────────────────────────────────────── */
+.sidebar-user-block {
+  padding: 0.5rem 0.6rem;
+  margin-bottom: 0.75rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.sidebar-user-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.sidebar-user-email {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  word-break: break-all;
+}
+
+/* ─── Authentication Pages ─────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-app);
+  padding: 2rem 1rem;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+}
+
+.auth-brand-icon {
+  width: 26px;
+  height: 26px;
+  background-color: var(--color-accent);
+  color: white;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.auth-header h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.auth-header p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.auth-alert {
+  margin-bottom: 1rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 0.65rem;
+  font-size: var(--font-size-base);
+  margin-top: 0.5rem;
+}
+
+.demo-login-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: var(--color-bg-sidebar);
+  border: 1px dashed var(--color-border-dark);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.demo-login-title {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+}
+
+.demo-login-sub {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.demo-login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.auth-link {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+

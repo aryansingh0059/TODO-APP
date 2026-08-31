@@ -6,62 +6,58 @@ const DATA_FILE = path.join(__dirname, '../data/todos.json');
 
 // ─── File Helpers ─────────────────────────────────────────────────────────────
 
-/**
- * Read all todos from the JSON file.
- * @returns {Promise<Array>}
- */
 async function readTodos() {
   try {
     const raw = await fs.readFile(DATA_FILE, 'utf-8');
     return JSON.parse(raw);
   } catch (err) {
     if (err.code === 'ENOENT') {
-      // File doesn't exist yet; return empty list
       return [];
     }
     throw err;
   }
 }
 
-/**
- * Write todos array back to the JSON file.
- * @param {Array} todos
- */
 async function writeTodos(todos) {
   await fs.writeFile(DATA_FILE, JSON.stringify(todos, null, 2), 'utf-8');
 }
 
-// ─── Service Functions ────────────────────────────────────────────────────────
+// ─── User-Isolated Service Functions ──────────────────────────────────────────
 
 /**
- * Get all todos.
+ * Get all todos owned by a specific user.
+ * @param {string} userId
  * @returns {Promise<Array>}
  */
-async function getAllTodos() {
-  return readTodos();
+async function getAllTodos(userId) {
+  const todos = await readTodos();
+  return todos.filter((t) => t.userId === userId);
 }
 
 /**
- * Get a single todo by ID.
+ * Get a single todo by ID owned by a specific user.
  * @param {string} id
+ * @param {string} userId
  * @returns {Promise<Object|null>}
  */
-async function getTodoById(id) {
+async function getTodoById(id, userId) {
   const todos = await readTodos();
-  return todos.find((t) => t.id === id) || null;
+  return todos.find((t) => t.id === id && t.userId === userId) || null;
 }
 
 /**
- * Create a new todo.
+ * Create a new todo for a specific user.
  * @param {{ title: string, description?: string, priority?: string, dueDate?: string|null }} data
+ * @param {string} userId
  * @returns {Promise<Object>}
  */
-async function createTodo(data) {
+async function createTodo(data, userId) {
   const todos = await readTodos();
 
   const now = new Date().toISOString();
   const todo = {
     id: crypto.randomUUID(),
+    userId,
     title: data.title.trim(),
     description: data.description ? data.description.trim() : '',
     completed: false,
@@ -77,14 +73,15 @@ async function createTodo(data) {
 }
 
 /**
- * Update an existing todo.
+ * Update an existing todo owned by a specific user.
  * @param {string} id
  * @param {{ title?: string, description?: string, completed?: boolean, priority?: string, dueDate?: string|null }} data
+ * @param {string} userId
  * @returns {Promise<Object|null>}
  */
-async function updateTodo(id, data) {
+async function updateTodo(id, data, userId) {
   const todos = await readTodos();
-  const index = todos.findIndex((t) => t.id === id);
+  const index = todos.findIndex((t) => t.id === id && t.userId === userId);
 
   if (index === -1) return null;
 
@@ -105,13 +102,14 @@ async function updateTodo(id, data) {
 }
 
 /**
- * Delete a todo by ID.
+ * Delete a todo by ID owned by a specific user.
  * @param {string} id
+ * @param {string} userId
  * @returns {Promise<boolean>} true if deleted, false if not found
  */
-async function deleteTodo(id) {
+async function deleteTodo(id, userId) {
   const todos = await readTodos();
-  const index = todos.findIndex((t) => t.id === id);
+  const index = todos.findIndex((t) => t.id === id && t.userId === userId);
 
   if (index === -1) return false;
 

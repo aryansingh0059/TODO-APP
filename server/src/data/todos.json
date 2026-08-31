@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "id": "aa2103ad-c816-4951-a35c-c620e9b6d008",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Prepare interview presentation",
+    "description": "Review system architecture and project documentation",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-01",
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "859a1959-f79f-411b-8166-5dd410c3bddc",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Complete React full-stack assignment",
+    "description": "Implement authentication and multi-view task navigation",
+    "completed": true,
+    "priority": "high",
+    "dueDate": "2026-09-01",
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "5b3ca05f-b61a-4735-9d35-2f4916c8a0c4",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Study system design principles",
+    "description": "Review database scaling, caching strategies, and load balancing",
+    "completed": false,
+    "priority": "medium",
+    "dueDate": "2026-09-06",
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "22e4f629-3452-40c9-9aca-12a42c2adcaf",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Review SQL & NOSQL queries",
+    "description": "Practice optimization techniques and index analysis",
+    "completed": false,
+    "priority": "low",
+    "dueDate": null,
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "deb5a5ab-5c7a-43b3-bf9c-fba8367e3cd6",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Demo Secret Task",
+    "description": "",
+    "completed": false,
+    "priority": "high",
+    "dueDate": null,
+    "createdAt": "2026-08-31T21:32:31.690Z",
+    "updatedAt": "2026-08-31T21:32:31.690Z"
+  }
+]

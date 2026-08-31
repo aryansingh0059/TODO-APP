@@ -3,7 +3,7 @@ const todoService = require('../services/todoService');
 // ─── GET /api/todos ───────────────────────────────────────────────────────────
 async function getAllTodos(req, res, next) {
   try {
-    const todos = await todoService.getAllTodos();
+    const todos = await todoService.getAllTodos(req.user.id);
     res.status(200).json({ success: true, data: todos });
   } catch (err) {
     next(err);
@@ -13,7 +13,7 @@ async function getAllTodos(req, res, next) {
 // ─── GET /api/todos/:id ────────────────────────────────────────────────────────
 async function getTodoById(req, res, next) {
   try {
-    const todo = await todoService.getTodoById(req.params.id);
+    const todo = await todoService.getTodoById(req.params.id, req.user.id);
     if (!todo) {
       return res.status(404).json({ success: false, message: 'Todo not found' });
     }
@@ -26,7 +26,7 @@ async function getTodoById(req, res, next) {
 // ─── POST /api/todos ──────────────────────────────────────────────────────────
 async function createTodo(req, res, next) {
   try {
-    const todo = await todoService.createTodo(req.body);
+    const todo = await todoService.createTodo(req.body, req.user.id);
     res.status(201).json({ success: true, data: todo });
   } catch (err) {
     next(err);
@@ -36,7 +36,7 @@ async function createTodo(req, res, next) {
 // ─── PUT /api/todos/:id ────────────────────────────────────────────────────────
 async function updateTodo(req, res, next) {
   try {
-    const todo = await todoService.updateTodo(req.params.id, req.body);
+    const todo = await todoService.updateTodo(req.params.id, req.body, req.user.id);
     if (!todo) {
       return res.status(404).json({ success: false, message: 'Todo not found' });
     }
@@ -49,7 +49,7 @@ async function updateTodo(req, res, next) {
 // ─── DELETE /api/todos/:id ─────────────────────────────────────────────────────
 async function deleteTodo(req, res, next) {
   try {
-    const deleted = await todoService.deleteTodo(req.params.id);
+    const deleted = await todoService.deleteTodo(req.params.id, req.user.id);
     if (!deleted) {
       return res.status(404).json({ success: false, message: 'Todo not found' });
     }
