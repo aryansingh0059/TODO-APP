@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
+const todoRoutes = require('./routes/todoRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -19,8 +20,8 @@ app.get('/api/health', (_req, res) => {
   res.json({ success: true, message: 'Server is running' });
 });
 
-// ─── API Routes (to be added in Phase 4) ─────────────────────────────────────
-// app.use('/api/todos', todoRoutes);
+// ─── API Routes ───────────────────────────────────────────────────────────────
+app.use('/api/todos', todoRoutes);
 
 // ─── 404 for unknown API routes ───────────────────────────────────────────────
 app.use('/api/*', (req, res) => {
