@@ -1,8 +1,11 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import SearchBar from './SearchBar'
 
 export default function Sidebar({
   activeView = 'todos',
-  viewCounts = { todos: 0, active: 0, today: 0, upcoming: 0 },
+  viewCounts = { todos: 0, active: 0, today: 0, upcoming: 0, completed: 0 },
+  search = '',
+  onSearchChange,
   onViewChange,
   onOpenCreate,
   isOpen,
@@ -56,6 +59,13 @@ export default function Sidebar({
           <span>Add task</span>
         </button>
 
+        {/* SEARCH SECTION */}
+        <div className="sidebar-section">
+          <div className="sidebar-section-title">Search</div>
+          <SearchBar value={search} onChange={onSearchChange} />
+        </div>
+
+        {/* NAVIGATION SECTION */}
         <div className="sidebar-section">
           <div className="sidebar-section-title">Navigation</div>
           
@@ -117,6 +127,21 @@ export default function Sidebar({
               <span>Upcoming</span>
             </div>
             {viewCounts.upcoming > 0 && <span className="sidebar-badge">{viewCounts.upcoming}</span>}
+          </button>
+
+          {/* 5. Completed */}
+          <button
+            className={`sidebar-nav-item${isTodosPage && activeView === 'completed' ? ' sidebar-nav-item--active' : ''}`}
+            onClick={() => handleViewClick('completed')}
+          >
+            <div className="sidebar-nav-item-left">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+              <span>Completed</span>
+            </div>
+            {viewCounts.completed > 0 && <span className="sidebar-badge">{viewCounts.completed}</span>}
           </button>
         </div>
       </aside>

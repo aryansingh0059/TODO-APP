@@ -273,6 +273,7 @@ export default function TodoDetailsPage() {
 
   return (
     <Layout
+      onSearchChange={() => navigate('/todos')}
       onViewChange={(view) => navigate(`/todos?view=${view}`)}
       onOpenCreate={() => navigate('/todos')}
     >

@@ -3,8 +3,6 @@ import { useSearchParams } from 'react-router-dom'
 import { useTodos } from '../hooks/useTodos'
 import Layout from '../components/Layout'
 import TodoCard from '../components/TodoCard'
-import TodoFilter from '../components/TodoFilter'
-import SearchBar from '../components/SearchBar'
 import EmptyState from '../components/EmptyState'
 import Loading from '../components/Loading'
 import ErrorMessage from '../components/ErrorMessage'
@@ -28,16 +26,12 @@ function applyView(todos, view) {
       return todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) === todayStr)
     case 'upcoming':
       return todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) > todayStr)
+    case 'completed':
+      return todos.filter((t) => t.completed)
     case 'todos':
     default:
       return todos
   }
-}
-
-function applyFilter(todos, filter) {
-  if (filter === 'active') return todos.filter((t) => !t.completed)
-  if (filter === 'completed') return todos.filter((t) => t.completed)
-  return todos
 }
 
 function applySearch(todos, query) {
@@ -78,7 +72,6 @@ export default function TodosPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeView = searchParams.get('view') || 'todos'
 
-  const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState('newest')
 
@@ -100,7 +93,7 @@ export default function TodosPage() {
     return () => window.removeEventListener('edit-todo', handleEditEvent)
   }, [handleEditEvent])
 
-  // View Counts for Sidebar & Header
+  // View Counts for Sidebar Navigation Badges & Header Subtitles
   const viewCounts = useMemo(() => {
     const todayStr = getLocalDateString()
     return {
@@ -108,25 +101,24 @@ export default function TodosPage() {
       active: todos.filter((t) => !t.completed).length,
       today: todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) === todayStr).length,
       upcoming: todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) > todayStr).length,
+      completed: todos.filter((t) => t.completed).length,
     }
   }, [todos])
 
-  // Derived list: view → filter → search → sort
+  // Derived list: view → search → sort
   const visible = useMemo(() => {
     let result = applyView(todos, activeView)
     
-    // For upcoming view, default sort is due date ascending
+    // For upcoming view, default sort is due date ascending if not explicitly overridden
     if (activeView === 'upcoming' && sort === 'newest') {
-      result = applyFilter(result, filter)
       result = applySearch(result, search)
       return result.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
     }
 
-    result = applyFilter(result, filter)
     result = applySearch(result, search)
     result = applySort(result, sort)
     return result
-  }, [todos, activeView, filter, search, sort])
+  }, [todos, activeView, search, sort])
 
   function handleViewChange(newView) {
     setSearchParams({ view: newView })
@@ -187,9 +179,10 @@ export default function TodosPage() {
   // Header Title & Subtitle based on View
   const viewTitles = {
     todos: { title: 'My Todos', sub: `${viewCounts.active} task${viewCounts.active !== 1 ? 's' : ''} remaining` },
-    active: { title: 'Active Tasks', sub: `${viewCounts.active} task${viewCounts.active !== 1 ? 's' : ''} remaining` },
+    active: { title: 'Active', sub: `${viewCounts.active} task${viewCounts.active !== 1 ? 's' : ''} remaining` },
     today: { title: 'Today', sub: `${viewCounts.today} task${viewCounts.today !== 1 ? 's' : ''}` },
     upcoming: { title: 'Upcoming', sub: `${viewCounts.upcoming} task${viewCounts.upcoming !== 1 ? 's' : ''}` },
+    completed: { title: 'Completed', sub: `${viewCounts.completed} completed` },
   }
   const currentTitle = viewTitles[activeView] || viewTitles.todos
 
@@ -197,6 +190,8 @@ export default function TodosPage() {
     <Layout
       activeView={activeView}
       viewCounts={viewCounts}
+      search={search}
+      onSearchChange={setSearch}
       onViewChange={handleViewChange}
       onOpenCreate={openCreateModal}
     >
@@ -206,28 +201,11 @@ export default function TodosPage() {
           <p>{loading ? 'Loading…' : currentTitle.sub}</p>
         </header>
 
-        {/* Controls Bar */}
-        <div className="controls-bar">
-          <SearchBar value={search} onChange={setSearch} />
-          <TodoFilter filter={filter} onChange={setFilter} />
-          <select
-            className="sort-select"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            aria-label="Sort todos"
-          >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-            <option value="priority">By priority</option>
-            <option value="dueDate">By due date</option>
-          </select>
-        </div>
-
         {/* State Feedback */}
         {loading && <Loading message="Loading todos…" />}
         {error && <ErrorMessage message={error} onRetry={refetch} />}
 
-        {/* List Section */}
+        {/* Clean Main Content Section */}
         {!loading && !error && (
           <>
             <div className="section-toolbar">
@@ -237,17 +215,32 @@ export default function TodosPage() {
                   {visible.length} {visible.length === 1 ? 'item' : 'items'}
                 </span>
               </span>
-              <button
-                id="create-todo-btn"
-                className="btn btn-primary btn-sm"
-                onClick={openCreateModal}
-              >
-                + Add task
-              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <select
+                  className="sort-select"
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value)}
+                  aria-label="Sort todos"
+                >
+                  <option value="newest">Sort: Newest first</option>
+                  <option value="oldest">Sort: Oldest first</option>
+                  <option value="priority">Sort: By priority</option>
+                  <option value="dueDate">Sort: By due date</option>
+                </select>
+
+                <button
+                  id="create-todo-btn"
+                  className="btn btn-primary btn-sm"
+                  onClick={openCreateModal}
+                >
+                  + Add task
+                </button>
+              </div>
             </div>
 
             {visible.length === 0 ? (
-              <EmptyState view={activeView} filter={search ? 'all' : filter} />
+              <EmptyState view={activeView} />
             ) : (
               <>
                 <div className="todo-list-container">

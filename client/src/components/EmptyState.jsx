@@ -4,6 +4,7 @@ export default function EmptyState({ view = 'todos', filter = 'all' }) {
     active: { title: 'No active tasks', sub: 'All your tasks are completed.' },
     today: { title: 'Nothing due today', sub: "You're all caught up for today." },
     upcoming: { title: 'No upcoming tasks', sub: 'You have nothing scheduled for later.' },
+    completed: { title: 'No completed tasks', sub: 'Completed tasks will appear here.' },
   }
 
   const filterMessages = {

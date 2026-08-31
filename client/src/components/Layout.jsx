@@ -4,7 +4,9 @@ import Sidebar from './Sidebar'
 export default function Layout({
   children,
   activeView = 'todos',
-  viewCounts = { todos: 0, active: 0, today: 0, upcoming: 0 },
+  viewCounts = { todos: 0, active: 0, today: 0, upcoming: 0, completed: 0 },
+  search = '',
+  onSearchChange,
   onViewChange,
   onOpenCreate,
 }) {
@@ -37,6 +39,8 @@ export default function Layout({
       <Sidebar
         activeView={activeView}
         viewCounts={viewCounts}
+        search={search}
+        onSearchChange={onSearchChange}
         onViewChange={onViewChange}
         onOpenCreate={onOpenCreate}
         isOpen={sidebarOpen}
