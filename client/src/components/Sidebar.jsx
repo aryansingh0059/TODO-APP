@@ -25,7 +25,7 @@ export default function Sidebar({
     if (onViewChange) {
       onViewChange(view)
     }
-    if (onClose) {
+    if (window.innerWidth <= 768 && onClose) {
       onClose()
     }
   }
@@ -37,7 +37,7 @@ export default function Sidebar({
     if (onOpenCreate) {
       onOpenCreate()
     }
-    if (onClose) {
+    if (window.innerWidth <= 768 && onClose) {
       onClose()
     }
   }
