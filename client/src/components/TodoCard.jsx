@@ -49,7 +49,7 @@ export default function TodoCard({ todo, onToggle, onEdit, onDelete }) {
       />
 
       <div className="todo-content">
-        <p
+        <div
           className="todo-title"
           onClick={handleTitleClick}
           role="button"
@@ -58,7 +58,7 @@ export default function TodoCard({ todo, onToggle, onEdit, onDelete }) {
           aria-label={`View details for ${todo.title}`}
         >
           {todo.title}
-        </p>
+        </div>
 
         {todo.description && (
           <p className="todo-description" title={todo.description}>

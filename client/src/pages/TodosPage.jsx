@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTodos } from '../hooks/useTodos'
+import Layout from '../components/Layout'
 import TodoCard from '../components/TodoCard'
 import TodoFilter from '../components/TodoFilter'
 import SearchBar from '../components/SearchBar'
@@ -136,99 +137,116 @@ export default function TodosPage() {
   const activeCount = todos.filter((t) => !t.completed).length
 
   return (
-    <div className="page-wrapper">
-      <header className="app-header">
-        <h1>My Todos</h1>
-        <p>
-          {loading ? 'Loading…' : `${activeCount} task${activeCount !== 1 ? 's' : ''} remaining`}
-        </p>
-      </header>
+    <Layout
+      activeCount={activeCount}
+      activeFilter={filter}
+      onFilterChange={setFilter}
+      onOpenCreate={openCreateModal}
+    >
+      <div className="page-wrapper">
+        <header className="app-header">
+          <h1>My Todos</h1>
+          <p>
+            {loading ? 'Loading…' : `${activeCount} task${activeCount !== 1 ? 's' : ''} remaining`}
+          </p>
+        </header>
 
-      {/* Controls */}
-      <div className="controls-bar">
-        <SearchBar value={search} onChange={setSearch} />
-        <TodoFilter filter={filter} onChange={setFilter} />
-        <select
-          className="sort-select"
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          aria-label="Sort todos"
-        >
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-          <option value="priority">By priority</option>
-          <option value="dueDate">By due date</option>
-        </select>
-      </div>
+        {/* Controls Bar */}
+        <div className="controls-bar">
+          <SearchBar value={search} onChange={setSearch} />
+          <TodoFilter filter={filter} onChange={setFilter} />
+          <select
+            className="sort-select"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            aria-label="Sort todos"
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="priority">By priority</option>
+            <option value="dueDate">By due date</option>
+          </select>
+        </div>
 
-      {/* State feedback */}
-      {loading && <Loading message="Loading todos…" />}
-      {error && <ErrorMessage message={error} onRetry={refetch} />}
+        {/* State Feedback */}
+        {loading && <Loading message="Loading todos…" />}
+        {error && <ErrorMessage message={error} onRetry={refetch} />}
 
-      {/* List */}
-      {!loading && !error && (
-        <>
-          <div className="section-toolbar">
-            <span className="section-title">
-              Tasks
-              <span className="todo-count">
-                {visible.length} {visible.length === 1 ? 'item' : 'items'}
+        {/* List Section */}
+        {!loading && !error && (
+          <>
+            <div className="section-toolbar">
+              <span className="section-title">
+                Tasks
+                <span className="todo-count">
+                  {visible.length} {visible.length === 1 ? 'item' : 'items'}
+                </span>
               </span>
-            </span>
-            <button
-              id="create-todo-btn"
-              className="btn btn-primary btn-sm"
-              onClick={openCreateModal}
-            >
-              + New todo
-            </button>
-          </div>
-
-          {visible.length === 0 ? (
-            <EmptyState filter={search ? 'all' : filter} />
-          ) : (
-            <div className="todo-list-container">
-              {visible.map((todo) => (
-                <TodoCard
-                  key={todo.id}
-                  todo={todo}
-                  onToggle={handleToggle}
-                  onEdit={handleEdit}
-                  onDelete={handleDelete}
-                />
-              ))}
+              <button
+                id="create-todo-btn"
+                className="btn btn-primary btn-sm"
+                onClick={openCreateModal}
+              >
+                + Add task
+              </button>
             </div>
-          )}
-        </>
-      )}
 
-      {/* Create / Edit Modal */}
-      {modalOpen && (
-        <div
-          className="modal-overlay"
-          onClick={(e) => e.target === e.currentTarget && closeModal()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-        >
-          <div className="modal">
-            <h2 id="modal-title" className="modal-title">
-              {editingTodo ? 'Edit todo' : 'New todo'}
-            </h2>
-            {submitError && (
-              <div className="alert alert-error" style={{ marginBottom: '1rem' }}>
-                {submitError}
+            {visible.length === 0 ? (
+              <EmptyState filter={search ? 'all' : filter} />
+            ) : (
+              <div className="todo-list-container">
+                {visible.map((todo) => (
+                  <TodoCard
+                    key={todo.id}
+                    todo={todo}
+                    onToggle={handleToggle}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                ))}
               </div>
             )}
-            <TodoForm
-              initialData={editingTodo}
-              onSubmit={handleFormSubmit}
-              onCancel={closeModal}
-              submitting={submitting}
-            />
+
+            {/* Inline Add Task Action */}
+            <button
+              className="inline-add-task-btn"
+              onClick={openCreateModal}
+              aria-label="Add task"
+            >
+              <span className="inline-add-icon">+</span>
+              <span>Add task</span>
+            </button>
+          </>
+        )}
+
+        {/* Create / Edit Modal */}
+        {modalOpen && (
+          <div
+            className="modal-overlay"
+            onClick={(e) => e.target === e.currentTarget && closeModal()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+          >
+            <div className="modal">
+              <h2 id="modal-title" className="modal-title">
+                {editingTodo ? 'Edit todo' : 'New todo'}
+              </h2>
+              {submitError && (
+                <div className="alert alert-error" style={{ marginBottom: '1rem' }}>
+                  {submitError}
+                </div>
+              )}
+              <TodoForm
+                initialData={editingTodo}
+                onSubmit={handleFormSubmit}
+                onCancel={closeModal}
+                submitting={submitting}
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Layout>
   )
 }

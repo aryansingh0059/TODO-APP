@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import * as api from '../services/todoApi'
+import Layout from '../components/Layout'
 import Loading from '../components/Loading'
 import ErrorMessage from '../components/ErrorMessage'
 import PriorityBadge from '../components/PriorityBadge'
@@ -106,165 +107,175 @@ export default function TodoDetailsPage() {
     }
   }
 
-  // ── No ID in URL ──────────────────────────────────────────────────
-  if (!id) {
+  const content = (() => {
+    // ── No ID in URL ──────────────────────────────────────────────────
+    if (!id) {
+      return (
+        <div className="page-wrapper">
+          <header className="detail-header">
+            <Link to="/todos" className="detail-back-btn">
+              ← Back to Todos
+            </Link>
+          </header>
+          <div className="alert alert-error">
+            No todo ID provided in the URL. Please navigate from the todo list.
+          </div>
+        </div>
+      )
+    }
+
+    // ── Loading ───────────────────────────────────────────────────────
+    if (loading) {
+      return (
+        <div className="page-wrapper">
+          <header className="detail-header">
+            <Link to="/todos" className="detail-back-btn">← Back to Todos</Link>
+          </header>
+          <Loading message="Loading todo…" />
+        </div>
+      )
+    }
+
+    // ── Error / Not Found ─────────────────────────────────────────────
+    if (error) {
+      return (
+        <div className="page-wrapper">
+          <header className="detail-header">
+            <Link to="/todos" className="detail-back-btn">← Back to Todos</Link>
+          </header>
+          <ErrorMessage message={error} />
+        </div>
+      )
+    }
+
+    if (!todo) return null
+
+    const overdue = isOverdue(todo.dueDate, todo.completed)
+
     return (
       <div className="page-wrapper">
+        {/* Back button */}
         <header className="detail-header">
           <Link to="/todos" className="detail-back-btn">
             ← Back to Todos
           </Link>
+          <span
+            className={`status-badge status-badge--${todo.completed ? 'completed' : 'active'}`}
+          >
+            {todo.completed ? 'Completed' : 'Active'}
+          </span>
         </header>
-        <div className="alert alert-error">
-          No todo ID provided in the URL. Please navigate from the todo list.
-        </div>
-      </div>
-    )
-  }
 
-  // ── Loading ───────────────────────────────────────────────────────
-  if (loading) {
-    return (
-      <div className="page-wrapper">
-        <header className="detail-header">
-          <Link to="/todos" className="detail-back-btn">← Back to Todos</Link>
-        </header>
-        <Loading message="Loading todo…" />
-      </div>
-    )
-  }
+        {/* Title */}
+        <h1 className={`detail-title${todo.completed ? ' detail-title--completed' : ''}`}>
+          {todo.title}
+        </h1>
 
-  // ── Error / Not Found ─────────────────────────────────────────────
-  if (error) {
-    return (
-      <div className="page-wrapper">
-        <header className="detail-header">
-          <Link to="/todos" className="detail-back-btn">← Back to Todos</Link>
-        </header>
-        <ErrorMessage message={error} />
-      </div>
-    )
-  }
+        {/* Description */}
+        {todo.description && (
+          <p className="detail-description">{todo.description}</p>
+        )}
 
-  if (!todo) return null
+        {/* Metadata grid */}
+        <div className="detail-meta-grid">
+          <div className="detail-meta-item">
+            <label>Priority</label>
+            <p><PriorityBadge priority={todo.priority} /></p>
+          </div>
 
-  const overdue = isOverdue(todo.dueDate, todo.completed)
+          <div className="detail-meta-item">
+            <label>Status</label>
+            <p>{todo.completed ? 'Completed' : 'Active'}</p>
+          </div>
 
-  return (
-    <div className="page-wrapper">
-      {/* Back button */}
-      <header className="detail-header">
-        <Link to="/todos" className="detail-back-btn">
-          ← Back to Todos
-        </Link>
-        <span
-          className={`status-badge status-badge--${todo.completed ? 'completed' : 'active'}`}
-        >
-          {todo.completed ? 'Completed' : 'Active'}
-        </span>
-      </header>
+          <div className="detail-meta-item">
+            <label>Due date</label>
+            <p className={overdue ? 'overdue' : ''}>
+              {todo.dueDate ? formatDate(todo.dueDate) : 'Not set'}
+              {overdue && ' (overdue)'}
+            </p>
+          </div>
 
-      {/* Title */}
-      <h1 className={`detail-title${todo.completed ? ' detail-title--completed' : ''}`}>
-        {todo.title}
-      </h1>
+          <div className="detail-meta-item">
+            <label>Created</label>
+            <p>{formatDateTime(todo.createdAt)}</p>
+          </div>
 
-      {/* Description */}
-      {todo.description && (
-        <p className="detail-description">{todo.description}</p>
-      )}
+          <div className="detail-meta-item">
+            <label>Last updated</label>
+            <p>{formatDateTime(todo.updatedAt)}</p>
+          </div>
 
-      {/* Metadata grid */}
-      <div className="detail-meta-grid">
-        <div className="detail-meta-item">
-          <label>Priority</label>
-          <p><PriorityBadge priority={todo.priority} /></p>
-        </div>
-
-        <div className="detail-meta-item">
-          <label>Status</label>
-          <p>{todo.completed ? 'Completed' : 'Active'}</p>
-        </div>
-
-        <div className="detail-meta-item">
-          <label>Due date</label>
-          <p className={overdue ? 'overdue' : ''}>
-            {todo.dueDate ? formatDate(todo.dueDate) : 'Not set'}
-            {overdue && ' (overdue)'}
-          </p>
-        </div>
-
-        <div className="detail-meta-item">
-          <label>Created</label>
-          <p>{formatDateTime(todo.createdAt)}</p>
-        </div>
-
-        <div className="detail-meta-item">
-          <label>Last updated</label>
-          <p>{formatDateTime(todo.updatedAt)}</p>
-        </div>
-
-        <div className="detail-meta-item">
-          <label>Todo ID</label>
-          <p style={{ fontFamily: 'monospace', fontSize: '0.75rem', wordBreak: 'break-all' }}>
-            {todo.id}
-          </p>
-        </div>
-      </div>
-
-      <div className="divider" />
-
-      {/* Actions */}
-      <div className="detail-actions">
-        <button
-          id="toggle-complete-btn"
-          className="btn btn-primary"
-          onClick={handleToggleComplete}
-        >
-          {todo.completed ? 'Mark as active' : 'Mark as complete'}
-        </button>
-        <button
-          id="edit-todo-btn"
-          className="btn btn-secondary"
-          onClick={() => { setEditOpen(true); setSubmitError('') }}
-        >
-          Edit
-        </button>
-        <button
-          id="delete-todo-btn"
-          className="btn btn-danger"
-          onClick={handleDelete}
-          disabled={deleting}
-        >
-          {deleting ? 'Deleting…' : 'Delete'}
-        </button>
-      </div>
-
-      {/* Edit modal */}
-      {editOpen && (
-        <div
-          className="modal-overlay"
-          onClick={(e) => e.target === e.currentTarget && setEditOpen(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="edit-modal-title"
-        >
-          <div className="modal">
-            <h2 id="edit-modal-title" className="modal-title">Edit todo</h2>
-            {submitError && (
-              <div className="alert alert-error" style={{ marginBottom: '1rem' }}>
-                {submitError}
-              </div>
-            )}
-            <TodoForm
-              initialData={todo}
-              onSubmit={handleEditSubmit}
-              onCancel={() => setEditOpen(false)}
-              submitting={submitting}
-            />
+          <div className="detail-meta-item">
+            <label>Todo ID</label>
+            <p style={{ fontFamily: 'monospace', fontSize: '0.75rem', wordBreak: 'break-all' }}>
+              {todo.id}
+            </p>
           </div>
         </div>
-      )}
-    </div>
+
+        <div className="divider" />
+
+        {/* Actions */}
+        <div className="detail-actions">
+          <button
+            id="toggle-complete-btn"
+            className="btn btn-primary"
+            onClick={handleToggleComplete}
+          >
+            {todo.completed ? 'Mark as active' : 'Mark as complete'}
+          </button>
+          <button
+            id="edit-todo-btn"
+            className="btn btn-secondary"
+            onClick={() => { setEditOpen(true); setSubmitError('') }}
+          >
+            Edit
+          </button>
+          <button
+            id="delete-todo-btn"
+            className="btn btn-danger"
+            onClick={handleDelete}
+            disabled={deleting}
+          >
+            {deleting ? 'Deleting…' : 'Delete'}
+          </button>
+        </div>
+
+        {/* Edit modal */}
+        {editOpen && (
+          <div
+            className="modal-overlay"
+            onClick={(e) => e.target === e.currentTarget && setEditOpen(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="edit-modal-title"
+          >
+            <div className="modal">
+              <h2 id="edit-modal-title" className="modal-title">Edit todo</h2>
+              {submitError && (
+                <div className="alert alert-error" style={{ marginBottom: '1rem' }}>
+                  {submitError}
+                </div>
+              )}
+              <TodoForm
+                initialData={todo}
+                onSubmit={handleEditSubmit}
+                onCancel={() => setEditOpen(false)}
+                submitting={submitting}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  })()
+
+  return (
+    <Layout
+      onOpenCreate={() => navigate('/todos')}
+    >
+      {content}
+    </Layout>
   )
 }
