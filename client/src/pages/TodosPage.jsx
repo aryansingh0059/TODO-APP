@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTodos } from '../hooks/useTodos'
 import TodoCard from '../components/TodoCard'
 import TodoFilter from '../components/TodoFilter'
@@ -6,6 +6,7 @@ import SearchBar from '../components/SearchBar'
 import EmptyState from '../components/EmptyState'
 import Loading from '../components/Loading'
 import ErrorMessage from '../components/ErrorMessage'
+import TodoForm from '../components/TodoForm'
 
 const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 }
 
@@ -47,11 +48,30 @@ function applySort(todos, sort) {
 }
 
 export default function TodosPage() {
-  const { todos, loading, error, refetch, toggleComplete, editTodo, removeTodo } = useTodos()
+  const { todos, loading, error, refetch, toggleComplete, addTodo, editTodo, removeTodo } =
+    useTodos()
 
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState('newest')
+
+  // Modal state
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingTodo, setEditingTodo] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+
+  // Listen for edit events dispatched from TodoCard
+  const handleEditEvent = useCallback((e) => {
+    setEditingTodo(e.detail)
+    setModalOpen(true)
+    setSubmitError('')
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('edit-todo', handleEditEvent)
+    return () => window.removeEventListener('edit-todo', handleEditEvent)
+  }, [handleEditEvent])
 
   // Derived list: filter → search → sort
   const visible = useMemo(() => {
@@ -61,8 +81,34 @@ export default function TodosPage() {
     return result
   }, [todos, filter, search, sort])
 
-  // We'll pass editing down through modal — implemented in Phase 8
-  // For now wire the page with read + toggle + delete
+  function openCreateModal() {
+    setEditingTodo(null)
+    setModalOpen(true)
+    setSubmitError('')
+  }
+
+  function closeModal() {
+    setModalOpen(false)
+    setEditingTodo(null)
+    setSubmitError('')
+  }
+
+  async function handleFormSubmit(data) {
+    setSubmitting(true)
+    setSubmitError('')
+    try {
+      if (editingTodo) {
+        await editTodo(editingTodo.id, data)
+      } else {
+        await addTodo(data)
+      }
+      closeModal()
+    } catch (err) {
+      setSubmitError(err.message || 'Failed to save todo')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   async function handleToggle(id, completed) {
     try {
@@ -82,15 +128,20 @@ export default function TodosPage() {
   }
 
   function handleEdit(todo) {
-    // Dispatch event for the modal — will be handled in Phase 8
-    window.dispatchEvent(new CustomEvent('edit-todo', { detail: todo }))
+    setEditingTodo(todo)
+    setModalOpen(true)
+    setSubmitError('')
   }
+
+  const activeCount = todos.filter((t) => !t.completed).length
 
   return (
     <div className="page-wrapper">
       <header className="app-header">
         <h1>My Todos</h1>
-        <p>Stay organised. Get things done.</p>
+        <p>
+          {loading ? 'Loading…' : `${activeCount} task${activeCount !== 1 ? 's' : ''} remaining`}
+        </p>
       </header>
 
       {/* Controls */}
@@ -124,6 +175,13 @@ export default function TodosPage() {
                 {visible.length} {visible.length === 1 ? 'item' : 'items'}
               </span>
             </span>
+            <button
+              id="create-todo-btn"
+              className="btn btn-primary btn-sm"
+              onClick={openCreateModal}
+            >
+              + New todo
+            </button>
           </div>
 
           {visible.length === 0 ? (
@@ -142,6 +200,34 @@ export default function TodosPage() {
             </div>
           )}
         </>
+      )}
+
+      {/* Create / Edit Modal */}
+      {modalOpen && (
+        <div
+          className="modal-overlay"
+          onClick={(e) => e.target === e.currentTarget && closeModal()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          <div className="modal">
+            <h2 id="modal-title" className="modal-title">
+              {editingTodo ? 'Edit todo' : 'New todo'}
+            </h2>
+            {submitError && (
+              <div className="alert alert-error" style={{ marginBottom: '1rem' }}>
+                {submitError}
+              </div>
+            )}
+            <TodoForm
+              initialData={editingTodo}
+              onSubmit={handleFormSubmit}
+              onCancel={closeModal}
+              submitting={submitting}
+            />
+          </div>
+        </div>
       )}
     </div>
   )
