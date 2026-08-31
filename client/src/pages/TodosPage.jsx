@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTodos } from '../hooks/useTodos'
 import Layout from '../components/Layout'
 import TodoCard from '../components/TodoCard'
@@ -10,6 +11,28 @@ import ErrorMessage from '../components/ErrorMessage'
 import TodoForm from '../components/TodoForm'
 
 const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 }
+
+function getLocalDateString(d = new Date()) {
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function applyView(todos, view) {
+  const todayStr = getLocalDateString()
+  switch (view) {
+    case 'active':
+      return todos.filter((t) => !t.completed)
+    case 'today':
+      return todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) === todayStr)
+    case 'upcoming':
+      return todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) > todayStr)
+    case 'todos':
+    default:
+      return todos
+  }
+}
 
 function applyFilter(todos, filter) {
   if (filter === 'active') return todos.filter((t) => !t.completed)
@@ -52,6 +75,9 @@ export default function TodosPage() {
   const { todos, loading, error, refetch, toggleComplete, addTodo, editTodo, removeTodo } =
     useTodos()
 
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeView = searchParams.get('view') || 'todos'
+
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState('newest')
@@ -74,13 +100,37 @@ export default function TodosPage() {
     return () => window.removeEventListener('edit-todo', handleEditEvent)
   }, [handleEditEvent])
 
-  // Derived list: filter → search → sort
+  // View Counts for Sidebar & Header
+  const viewCounts = useMemo(() => {
+    const todayStr = getLocalDateString()
+    return {
+      todos: todos.length,
+      active: todos.filter((t) => !t.completed).length,
+      today: todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) === todayStr).length,
+      upcoming: todos.filter((t) => t.dueDate && t.dueDate.slice(0, 10) > todayStr).length,
+    }
+  }, [todos])
+
+  // Derived list: view → filter → search → sort
   const visible = useMemo(() => {
-    let result = applyFilter(todos, filter)
+    let result = applyView(todos, activeView)
+    
+    // For upcoming view, default sort is due date ascending
+    if (activeView === 'upcoming' && sort === 'newest') {
+      result = applyFilter(result, filter)
+      result = applySearch(result, search)
+      return result.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    }
+
+    result = applyFilter(result, filter)
     result = applySearch(result, search)
     result = applySort(result, sort)
     return result
-  }, [todos, filter, search, sort])
+  }, [todos, activeView, filter, search, sort])
+
+  function handleViewChange(newView) {
+    setSearchParams({ view: newView })
+  }
 
   function openCreateModal() {
     setEditingTodo(null)
@@ -134,21 +184,26 @@ export default function TodosPage() {
     setSubmitError('')
   }
 
-  const activeCount = todos.filter((t) => !t.completed).length
+  // Header Title & Subtitle based on View
+  const viewTitles = {
+    todos: { title: 'My Todos', sub: `${viewCounts.active} task${viewCounts.active !== 1 ? 's' : ''} remaining` },
+    active: { title: 'Active Tasks', sub: `${viewCounts.active} task${viewCounts.active !== 1 ? 's' : ''} remaining` },
+    today: { title: 'Today', sub: `${viewCounts.today} task${viewCounts.today !== 1 ? 's' : ''}` },
+    upcoming: { title: 'Upcoming', sub: `${viewCounts.upcoming} task${viewCounts.upcoming !== 1 ? 's' : ''}` },
+  }
+  const currentTitle = viewTitles[activeView] || viewTitles.todos
 
   return (
     <Layout
-      activeCount={activeCount}
-      activeFilter={filter}
-      onFilterChange={setFilter}
+      activeView={activeView}
+      viewCounts={viewCounts}
+      onViewChange={handleViewChange}
       onOpenCreate={openCreateModal}
     >
       <div className="page-wrapper">
         <header className="app-header">
-          <h1>My Todos</h1>
-          <p>
-            {loading ? 'Loading…' : `${activeCount} task${activeCount !== 1 ? 's' : ''} remaining`}
-          </p>
+          <h1>{currentTitle.title}</h1>
+          <p>{loading ? 'Loading…' : currentTitle.sub}</p>
         </header>
 
         {/* Controls Bar */}
@@ -192,7 +247,7 @@ export default function TodosPage() {
             </div>
 
             {visible.length === 0 ? (
-              <EmptyState filter={search ? 'all' : filter} />
+              <EmptyState view={activeView} filter={search ? 'all' : filter} />
             ) : (
               <>
                 <div className="todo-list-container">

@@ -3,9 +3,9 @@ import Sidebar from './Sidebar'
 
 export default function Layout({
   children,
-  activeCount = 0,
-  activeFilter = 'all',
-  onFilterChange,
+  activeView = 'todos',
+  viewCounts = { todos: 0, active: 0, today: 0, upcoming: 0 },
+  onViewChange,
   onOpenCreate,
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -35,9 +35,9 @@ export default function Layout({
 
       {/* Sidebar */}
       <Sidebar
-        activeCount={activeCount}
-        activeFilter={activeFilter}
-        onFilterChange={onFilterChange}
+        activeView={activeView}
+        viewCounts={viewCounts}
+        onViewChange={onViewChange}
         onOpenCreate={onOpenCreate}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

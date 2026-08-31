@@ -1,9 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function Sidebar({
-  activeCount = 0,
-  activeFilter = 'all',
-  onFilterChange,
+  activeView = 'todos',
+  viewCounts = { todos: 0, active: 0, today: 0, upcoming: 0 },
+  onViewChange,
   onOpenCreate,
   isOpen,
   onClose,
@@ -12,12 +12,12 @@ export default function Sidebar({
   const location = useLocation()
   const isTodosPage = location.pathname === '/todos'
 
-  function handleFilterClick(filter) {
+  function handleViewClick(view) {
     if (!isTodosPage) {
-      navigate('/todos')
+      navigate(`/todos?view=${view}`)
     }
-    if (onFilterChange) {
-      onFilterChange(filter)
+    if (onViewChange) {
+      onViewChange(view)
     }
     if (onClose) {
       onClose()
@@ -59,9 +59,10 @@ export default function Sidebar({
         <div className="sidebar-section">
           <div className="sidebar-section-title">Navigation</div>
           
+          {/* 1. Todos */}
           <button
-            className={`sidebar-nav-item${isTodosPage && activeFilter === 'all' ? ' sidebar-nav-item--active' : ''}`}
-            onClick={() => handleFilterClick('all')}
+            className={`sidebar-nav-item${isTodosPage && activeView === 'todos' ? ' sidebar-nav-item--active' : ''}`}
+            onClick={() => handleViewClick('todos')}
           >
             <div className="sidebar-nav-item-left">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -69,12 +70,13 @@ export default function Sidebar({
               </svg>
               <span>Todos</span>
             </div>
-            {activeCount > 0 && <span className="sidebar-badge">{activeCount}</span>}
+            {viewCounts.todos > 0 && <span className="sidebar-badge">{viewCounts.todos}</span>}
           </button>
 
+          {/* 2. Active */}
           <button
-            className={`sidebar-nav-item${isTodosPage && activeFilter === 'active' ? ' sidebar-nav-item--active' : ''}`}
-            onClick={() => handleFilterClick('active')}
+            className={`sidebar-nav-item${isTodosPage && activeView === 'active' ? ' sidebar-nav-item--active' : ''}`}
+            onClick={() => handleViewClick('active')}
           >
             <div className="sidebar-nav-item-left">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -82,19 +84,39 @@ export default function Sidebar({
               </svg>
               <span>Active</span>
             </div>
+            {viewCounts.active > 0 && <span className="sidebar-badge">{viewCounts.active}</span>}
           </button>
 
+          {/* 3. Today */}
           <button
-            className={`sidebar-nav-item${isTodosPage && activeFilter === 'completed' ? ' sidebar-nav-item--active' : ''}`}
-            onClick={() => handleFilterClick('completed')}
+            className={`sidebar-nav-item${isTodosPage && activeView === 'today' ? ' sidebar-nav-item--active' : ''}`}
+            onClick={() => handleViewClick('today')}
           >
             <div className="sidebar-nav-item-left">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
               </svg>
-              <span>Completed</span>
+              <span>Today</span>
             </div>
+            {viewCounts.today > 0 && <span className="sidebar-badge">{viewCounts.today}</span>}
+          </button>
+
+          {/* 4. Upcoming */}
+          <button
+            className={`sidebar-nav-item${isTodosPage && activeView === 'upcoming' ? ' sidebar-nav-item--active' : ''}`}
+            onClick={() => handleViewClick('upcoming')}
+          >
+            <div className="sidebar-nav-item-left">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span>Upcoming</span>
+            </div>
+            {viewCounts.upcoming > 0 && <span className="sidebar-badge">{viewCounts.upcoming}</span>}
           </button>
         </div>
       </aside>
