@@ -194,28 +194,30 @@ export default function TodosPage() {
             {visible.length === 0 ? (
               <EmptyState filter={search ? 'all' : filter} />
             ) : (
-              <div className="todo-list-container">
-                {visible.map((todo) => (
-                  <TodoCard
-                    key={todo.id}
-                    todo={todo}
-                    onToggle={handleToggle}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </div>
-            )}
+              <>
+                <div className="todo-list-container">
+                  {visible.map((todo) => (
+                    <TodoCard
+                      key={todo.id}
+                      todo={todo}
+                      onToggle={handleToggle}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+                </div>
 
-            {/* Inline Add Task Action */}
-            <button
-              className="inline-add-task-btn"
-              onClick={openCreateModal}
-              aria-label="Add task"
-            >
-              <span className="inline-add-icon">+</span>
-              <span>Add task</span>
-            </button>
+                {/* Inline Add Task Action (shown below task items) */}
+                <button
+                  className="inline-add-task-btn"
+                  onClick={openCreateModal}
+                  aria-label="Add task"
+                >
+                  <span className="inline-add-icon">+</span>
+                  <span>Add task</span>
+                </button>
+              </>
+            )}
           </>
         )}
 
