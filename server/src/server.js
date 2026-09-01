@@ -22,6 +22,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
+app.get('/', (_req, res) => {
+  res.json({ success: true, message: 'Server is running' });
+});
 app.get('/api/health', (_req, res) => {
   res.json({ success: true, message: 'Server is running' });
 });
