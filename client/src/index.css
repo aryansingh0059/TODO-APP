@@ -756,6 +756,12 @@ textarea {
   border-color: #fca5a5;
 }
 
+.alert-success {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-color: #86efac;
+}
+
 .loading-container {
   display: flex;
   flex-direction: column;

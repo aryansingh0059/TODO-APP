@@ -36,9 +36,9 @@ export function AuthProvider({ children }) {
   }
 
   async function registerUser(data) {
-    const res = await authApi.register(data)
-    setUser(res.data)
-    return res.data
+    // Registration only creates the account, it does NOT log the user in.
+    // No setUser() call here — the user must explicitly log in.
+    await authApi.register(data)
   }
 
   async function logoutUser() {

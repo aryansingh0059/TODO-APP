@@ -13,6 +13,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  // If already authenticated, go straight to todos
   if (user) {
     return <Navigate to="/todos" replace />
   }
@@ -46,9 +47,11 @@ export default function RegisterPage() {
         password,
         confirmPassword,
       })
-      navigate('/todos')
+      // Registration succeeded. DO NOT log in automatically.
+      // Redirect to login with a registered=true flag so the login page shows the success banner.
+      navigate('/login?registered=true')
     } catch (err) {
-      setError(err.message || 'Registration failed')
+      setError(err.message || 'Registration failed. Please try again.')
     } finally {
       setLoading(false)
     }

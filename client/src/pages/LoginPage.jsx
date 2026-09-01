@@ -1,10 +1,14 @@
 import { useState } from 'react'
-import { Link, useNavigate, Navigate } from 'react-router-dom'
+import { Link, useNavigate, Navigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function LoginPage() {
   const { user, login } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
+  // Show success banner when redirected here from /register?registered=true
+  const justRegistered = searchParams.get('registered') === 'true'
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -60,6 +64,13 @@ export default function LoginPage() {
           <h1>Welcome back</h1>
           <p>Log in to manage your tasks and stay productive.</p>
         </div>
+
+        {/* Registration success banner */}
+        {justRegistered && (
+          <div className="alert alert-success auth-alert">
+            ✓ Account created successfully! Please sign in to continue.
+          </div>
+        )}
 
         {error && <div className="alert alert-error auth-alert">{error}</div>}
 

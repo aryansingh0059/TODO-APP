@@ -4,9 +4,18 @@ const userService = require('../services/userService');
 const JWT_SECRET = process.env.JWT_SECRET || 'ziptrrip-todo-dev-secret-key-change-in-production';
 const COOKIE_OPTIONS = {
   httpOnly: true,
+  path: '/',
   sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production',
+  secure: false, // keep false for localhost dev; set true via reverse proxy in production
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
+// Options used when clearing — must exactly match the set options (except maxAge)
+const COOKIE_CLEAR_OPTIONS = {
+  httpOnly: true,
+  path: '/',
+  sameSite: 'lax',
+  secure: false,
 };
 
 function generateToken(user) {
@@ -43,13 +52,13 @@ async function register(req, res, next) {
       return res.status(400).json({ success: false, message: 'An account with this email already exists' });
     }
 
-    const user = await userService.createUser({ name, email, password });
-    const token = generateToken(user);
+    await userService.createUser({ name, email, password });
 
-    res.cookie('token', token, COOKIE_OPTIONS);
+    // Registration does NOT create a session.
+    // The user must explicitly log in after registering.
     res.status(201).json({
       success: true,
-      data: { id: user.id, name: user.name, email: user.email },
+      message: 'Account created successfully',
     });
   } catch (err) {
     next(err);
@@ -89,7 +98,7 @@ async function login(req, res, next) {
 
 // ─── POST /api/auth/logout ────────────────────────────────────────────────────
 async function logout(_req, res) {
-  res.clearCookie('token', COOKIE_OPTIONS);
+  res.clearCookie('token', COOKIE_CLEAR_OPTIONS);
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 }
 
