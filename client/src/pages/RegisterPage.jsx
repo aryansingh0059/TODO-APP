@@ -58,63 +58,33 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-page">
-      {/* ── Left brand panel ── */}
-      <div className="auth-left">
-        <div className="auth-left-brand">
-          <div className="auth-left-brand-icon">✓</div>
-          <span>Todo App</span>
-        </div>
-
-        <p className="auth-left-headline">
-          Start organized.<br />Stay focused.
-        </p>
-        <p className="auth-left-sub">
-          Create your free account and begin managing your tasks in seconds.
-        </p>
-
-        <div className="auth-left-benefits">
-          <div className="auth-benefit-item">
-            <div className="auth-benefit-check">✓</div>
-            <span>Create and manage tasks easily</span>
-          </div>
-          <div className="auth-benefit-item">
-            <div className="auth-benefit-check">✓</div>
-            <span>Track active and completed work</span>
-          </div>
-          <div className="auth-benefit-item">
-            <div className="auth-benefit-check">✓</div>
-            <span>Organize by due date and priority</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Right form panel ── */}
-      <div className="auth-right">
-        <div className="auth-right-inner">
-          {/* Compact brand */}
-          <div className="auth-form-brand">
-            <div className="auth-form-brand-icon">✓</div>
+      {/* ── Left 50% Auth Form Panel ── */}
+      <div className="auth-form-panel">
+        <div className="auth-form-container">
+          {/* Logo / Branding */}
+          <div className="auth-brand">
+            <div className="auth-brand-icon">✓</div>
             <span>Todo App</span>
           </div>
 
-          <h1 className="auth-form-title">Create your account</h1>
-          <p className="auth-form-subtitle">Get started — it only takes a moment.</p>
+          <h1 className="auth-title">Create your account</h1>
+          <p className="auth-subtitle">Start organizing your tasks.</p>
 
-          {/* Error alert */}
+          {/* Error Alert */}
           {error && (
             <div className="auth-alert-wrap">
               <div className="auth-alert-error">{error}</div>
             </div>
           )}
 
-          {/* Registration form */}
-          <form onSubmit={handleRegister} noValidate>
+          {/* Form */}
+          <form onSubmit={handleRegister} noValidate className="auth-form">
             <div className="auth-field">
               <label htmlFor="reg-name">Name</label>
               <input
                 id="reg-name"
                 type="text"
-                placeholder="Your full name"
+                placeholder="Your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={loading}
@@ -128,7 +98,7 @@ export default function RegisterPage() {
               <input
                 id="reg-email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
@@ -142,7 +112,7 @@ export default function RegisterPage() {
                 <input
                   id="reg-password"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="At least 6 characters"
+                  placeholder="Your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
@@ -156,13 +126,13 @@ export default function RegisterPage() {
                   tabIndex={0}
                 >
                   {showPassword ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
                       <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
                       <line x1="1" y1="1" x2="23" y2="23"/>
                     </svg>
                   ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
@@ -177,7 +147,7 @@ export default function RegisterPage() {
                 <input
                   id="reg-confirm"
                   type={showConfirm ? 'text' : 'password'}
-                  placeholder="Re-enter your password"
+                  placeholder="Confirm password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   disabled={loading}
@@ -191,13 +161,13 @@ export default function RegisterPage() {
                   tabIndex={0}
                 >
                   {showConfirm ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
                       <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
                       <line x1="1" y1="1" x2="23" y2="23"/>
                     </svg>
                   ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
@@ -208,17 +178,77 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="auth-submit"
+              className="auth-submit-btn"
               disabled={loading}
             >
               {loading ? 'Creating account…' : 'Create account'}
             </button>
           </form>
 
-          {/* Footer */}
-          <div className="auth-form-footer">
+          {/* Footer link */}
+          <div className="auth-footer-link">
             Already have an account?{' '}
             <Link to="/login">Log in</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Right 50% Productivity Visual Panel ── */}
+      <div className="auth-visual-panel">
+        <div className="auth-visual-content">
+          <div className="auth-visual-header">
+            <span className="auth-visual-tag">YOUR DAY</span>
+            <h2>Organize your day.<br />One task at a time.</h2>
+            <p>Stay focused on what matters most and track your progress effortlessly.</p>
+          </div>
+
+          {/* Task Showcase Stack */}
+          <div className="auth-task-showcase">
+            {/* Task 1 (Completed) */}
+            <div className="auth-task-card auth-task-card--completed">
+              <div className="auth-task-check">✓</div>
+              <div className="auth-task-body">
+                <span className="auth-task-title">Read system design notes</span>
+                <div className="auth-task-meta">
+                  <span className="auth-badge auth-badge--success">Completed</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Task 2 (Active - High Priority) */}
+            <div className="auth-task-card auth-task-card--active">
+              <div className="auth-task-radio auth-task-radio--high"></div>
+              <div className="auth-task-body">
+                <span className="auth-task-title">Prepare interview preparation</span>
+                <div className="auth-task-meta">
+                  <span className="auth-badge auth-badge--high">High priority</span>
+                  <span className="auth-task-date">Today</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Task 3 (Upcoming) */}
+            <div className="auth-task-card auth-task-card--upcoming">
+              <div className="auth-task-radio"></div>
+              <div className="auth-task-body">
+                <span className="auth-task-title">Complete project milestone</span>
+                <div className="auth-task-meta">
+                  <span className="auth-badge auth-badge--medium">Medium priority</span>
+                  <span className="auth-task-date">Due tomorrow</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Progress Card */}
+            <div className="auth-progress-card">
+              <div className="auth-progress-header">
+                <span>Progress</span>
+                <span className="auth-progress-count">2 / 3 completed</span>
+              </div>
+              <div className="auth-progress-bar">
+                <div className="auth-progress-fill" style={{ width: '67%' }}></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
