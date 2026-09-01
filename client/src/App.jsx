@@ -18,6 +18,7 @@ export default function App() {
           {/* Authentication Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/signup" element={<Navigate to="/register" replace />} />
 
           {/* Protected Todo Routes */}
           <Route
@@ -36,6 +37,11 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/today" element={<Navigate to="/todos?view=today" replace />} />
+          <Route path="/upcoming" element={<Navigate to="/todos?view=upcoming" replace />} />
+          <Route path="/completed" element={<Navigate to="/todos?view=completed" replace />} />
+          <Route path="/filters" element={<Navigate to="/todos" replace />} />
+          <Route path="/reporting" element={<Navigate to="/todos" replace />} />
 
           {/* 404 Routes */}
           <Route path="/not-found" element={<NotFoundPage />} />

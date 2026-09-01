@@ -2,20 +2,22 @@ const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'ziptrrip-todo-dev-secret-key-change-in-production';
+const isProduction = process.env.NODE_ENV === 'production';
+
 const COOKIE_OPTIONS = {
   httpOnly: true,
   path: '/',
-  sameSite: 'lax',
-  secure: false, // keep false for localhost dev; set true via reverse proxy in production
+  sameSite: isProduction ? 'none' : 'lax',
+  secure: isProduction,
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
-// Options used when clearing — must exactly match the set options (except maxAge)
+// Options used when clearing — must match the set options attributes (except maxAge)
 const COOKIE_CLEAR_OPTIONS = {
   httpOnly: true,
   path: '/',
-  sameSite: 'lax',
-  secure: false,
+  sameSite: isProduction ? 'none' : 'lax',
+  secure: isProduction,
 };
 
 function generateToken(user) {
