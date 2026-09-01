@@ -372,6 +372,8 @@ body {
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--color-border);
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .section-title {
@@ -984,7 +986,6 @@ textarea {
   word-break: break-all;
 }
 
-/* ─── Authentication Pages ─────────────────────────────────────── */
 /* ─── Authentication Pages Layout ─────────────────────────────── */
 .auth-page {
   min-height: 100vh;
