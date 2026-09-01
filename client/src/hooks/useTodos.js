@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import * as api from '../services/todoApi'
+import { useAuth } from '../context/AuthContext'
 
 export function useTodos() {
+  const { logout } = useAuth()
   const [todos, setTodos] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -13,11 +15,15 @@ export function useTodos() {
       const res = await api.getTodos()
       setTodos(res.data)
     } catch (err) {
+      if (err.status === 401) {
+        logout()
+        return
+      }
       setError(err.message || 'Failed to load todos')
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [logout])
 
   useEffect(() => {
     fetchTodos()

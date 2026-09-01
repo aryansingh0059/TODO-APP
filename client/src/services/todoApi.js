@@ -1,3 +1,5 @@
+import { getStoredToken, setStoredToken } from './authApi'
+
 function getApiBase() {
   const envUrl =
     import.meta.env.VITE_API_URL ||
@@ -12,13 +14,26 @@ function getApiBase() {
 
 async function request(path, options = {}) {
   const url = `${getApiBase()}${path}`
+  const token = getStoredToken();
+
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(options.headers || {}),
+  }
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   const res = await fetch(url, {
     credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers,
   })
   const data = await res.json()
   if (!res.ok) {
+    if (res.status === 401) {
+      setStoredToken(null);
+    }
     const err = new Error(data.message || 'Request failed')
     err.status = res.status
     throw err

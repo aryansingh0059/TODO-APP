@@ -2,7 +2,10 @@ const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'ziptrrip-todo-dev-secret-key-change-in-production';
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction =
+  process.env.NODE_ENV === 'production' ||
+  process.env.RENDER === 'true' ||
+  process.env.VERCEL === '1';
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -91,7 +94,7 @@ async function login(req, res, next) {
     res.cookie('token', token, COOKIE_OPTIONS);
     res.status(200).json({
       success: true,
-      data: { id: user.id, name: user.name, email: user.email },
+      data: { id: user.id, name: user.name, email: user.email, token },
     });
   } catch (err) {
     next(err);
