@@ -64,7 +64,7 @@ export default function RegisterPage() {
           {/* Logo / Branding */}
           <div className="auth-brand">
             <div className="auth-brand-icon">✓</div>
-            <span>Todo App</span>
+            <span>Taskly</span>
           </div>
 
           <h1 className="auth-title">Create your account</h1>

@@ -49,7 +49,7 @@ export default function Sidebar({
         <div className="sidebar-header">
           <div className="sidebar-brand">
             <span className="sidebar-brand-icon">✓</span>
-            <span>Todo App</span>
+            <span>Taskly</span>
           </div>
           <button
             className="sidebar-toggle-btn"

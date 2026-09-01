@@ -58,7 +58,7 @@ export default function LoginPage() {
           {/* Logo / Branding */}
           <div className="auth-brand">
             <div className="auth-brand-icon">✓</div>
-            <span>Todo App</span>
+            <span>Taskly</span>
           </div>
 
           <h1 className="auth-title">Welcome back</h1>

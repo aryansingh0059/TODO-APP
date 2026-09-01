@@ -40,7 +40,7 @@ export default function Layout({
             <line x1="9" y1="3" x2="9" y2="21" />
           </svg>
         </button>
-        <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>Todo App</span>
+        <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>Taskly</span>
         <button
           className="btn btn-primary btn-sm"
           onClick={onOpenCreate}
