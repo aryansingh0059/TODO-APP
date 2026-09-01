@@ -22,17 +22,6 @@
     "updatedAt": "2026-08-31T21:32:24.507Z"
   },
   {
-    "id": "5b3ca05f-b61a-4735-9d35-2f4916c8a0c4",
-    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
-    "title": "Study system design principles",
-    "description": "Review database scaling, caching strategies, and load balancing",
-    "completed": false,
-    "priority": "medium",
-    "dueDate": "2026-09-06",
-    "createdAt": "2026-08-31T21:32:24.507Z",
-    "updatedAt": "2026-08-31T21:32:24.507Z"
-  },
-  {
     "id": "22e4f629-3452-40c9-9aca-12a42c2adcaf",
     "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
     "title": "Review SQL & NOSQL queries",
@@ -53,5 +42,27 @@
     "dueDate": null,
     "createdAt": "2026-08-31T21:32:31.690Z",
     "updatedAt": "2026-08-31T21:32:31.690Z"
+  },
+  {
+    "id": "6004ba25-6d0f-471a-b56c-71f259337f23",
+    "userId": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "title": "egg",
+    "description": "it takes 10 minute's to boil egg",
+    "completed": true,
+    "priority": "medium",
+    "dueDate": "2026-09-01",
+    "createdAt": "2026-09-01T14:54:13.748Z",
+    "updatedAt": "2026-09-01T14:55:08.804Z"
+  },
+  {
+    "id": "ea71190a-a5c1-4933-bd4c-0dce8b7ee63a",
+    "userId": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "title": "system design",
+    "description": "i have to study system design",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-02",
+    "createdAt": "2026-09-01T14:54:43.982Z",
+    "updatedAt": "2026-09-01T14:54:43.982Z"
   }
 ]

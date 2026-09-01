@@ -12,5 +12,26 @@
     "email": "interviewer@todoapp.local",
     "passwordHash": "$2a$10$O7JZ.YEssjr/1r0e5TnQhOTzqzZWbkACFNkZZpGKizKbPdMTV5/oi",
     "createdAt": "2026-08-31T21:32:24.506Z"
+  },
+  {
+    "id": "e040637f-ad75-4322-948d-9b2b130af02f",
+    "name": "UI Test",
+    "email": "uitest_1788271430913@test.local",
+    "passwordHash": "$2a$10$s02KKIRjiDrKokhF/p4TOuAvls375SQU7DE0/hfAVaOovC8yCoxB6",
+    "createdAt": "2026-09-01T14:03:51.055Z"
+  },
+  {
+    "id": "18e816d8-1196-497a-b302-63e513e96fe0",
+    "name": "Final Reg",
+    "email": "finalreg_1788273524189@test.local",
+    "passwordHash": "$2a$10$heZJMWJrOZQ/rGjVaLhalu0vtET11eVYOq8390oujy.ZoLbDrgiti",
+    "createdAt": "2026-09-01T14:38:44.297Z"
+  },
+  {
+    "id": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "name": "Aryan Singh",
+    "email": "aryansinghclub1212@gmail.com",
+    "passwordHash": "$2a$10$R051E8CCL6KRHMhn8jEcQ.RMnxvbx3STOzM.3aqQsIv9Z8fgF4jaq",
+    "createdAt": "2026-09-01T14:46:02.981Z"
   }
 ]
