@@ -1,0 +1,126 @@
+[
+  {
+    "id": "aa2103ad-c816-4951-a35c-c620e9b6d008",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Prepare interview presentation",
+    "description": "Review system architecture and project documentation",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-01",
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "859a1959-f79f-411b-8166-5dd410c3bddc",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Complete React full-stack assignment",
+    "description": "Implement authentication and multi-view task navigation",
+    "completed": true,
+    "priority": "high",
+    "dueDate": "2026-09-01",
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "22e4f629-3452-40c9-9aca-12a42c2adcaf",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Review SQL & NOSQL queries",
+    "description": "Practice optimization techniques and index analysis",
+    "completed": false,
+    "priority": "low",
+    "dueDate": null,
+    "createdAt": "2026-08-31T21:32:24.507Z",
+    "updatedAt": "2026-08-31T21:32:24.507Z"
+  },
+  {
+    "id": "deb5a5ab-5c7a-43b3-bf9c-fba8367e3cd6",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "Demo Secret Task",
+    "description": "",
+    "completed": false,
+    "priority": "high",
+    "dueDate": null,
+    "createdAt": "2026-08-31T21:32:31.690Z",
+    "updatedAt": "2026-08-31T21:32:31.690Z"
+  },
+  {
+    "id": "6004ba25-6d0f-471a-b56c-71f259337f23",
+    "userId": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "title": "egg",
+    "description": "it takes 10 minute's to boil egg",
+    "completed": true,
+    "priority": "medium",
+    "dueDate": "2026-09-01",
+    "createdAt": "2026-09-01T14:54:13.748Z",
+    "updatedAt": "2026-09-01T14:55:08.804Z"
+  },
+  {
+    "id": "ea71190a-a5c1-4933-bd4c-0dce8b7ee63a",
+    "userId": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "title": "system design",
+    "description": "i have to study system design",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-02",
+    "createdAt": "2026-09-01T14:54:43.982Z",
+    "updatedAt": "2026-09-01T14:54:43.982Z"
+  },
+  {
+    "id": "4eb667a7-f878-47af-a8ef-b1c46d779a67",
+    "userId": "683de1d5-7844-4bf8-9aca-123f208dc0d4",
+    "title": "Egg",
+    "description": "It takes 10 mins to boil eggs",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-05",
+    "createdAt": "2026-09-05T07:11:52.355Z",
+    "updatedAt": "2026-09-05T07:11:52.355Z"
+  },
+  {
+    "id": "7a12b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+    "userId": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "assignedTo": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "title": "Fullstack User Dropdown Implementation",
+    "description": "Design and integrate user selection dropdown for task assignment and filtering.",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-06",
+    "createdAt": "2026-09-05T07:19:00.000Z",
+    "updatedAt": "2026-09-05T07:19:00.000Z"
+  },
+  {
+    "id": "9b8a7c6d-5e4f-3a2b-1c0d-e9f8a7b6c5d4",
+    "userId": "8b3896b2-0dd8-4143-bc77-e0daf337c257",
+    "assignedTo": "8b3896b2-0dd8-4143-bc77-e0daf337c257",
+    "title": "Backend API & Database Optimization",
+    "description": "Optimize endpoints and user service data layer for team tasks.",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-07",
+    "createdAt": "2026-09-05T07:19:00.000Z",
+    "updatedAt": "2026-09-05T07:24:34.566Z"
+  },
+  {
+    "id": "274c3ce5-fd04-4510-912c-957f171f44ab",
+    "userId": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "title": "hii",
+    "description": "fghjk",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-09-05",
+    "createdAt": "2026-09-05T07:21:25.926Z",
+    "updatedAt": "2026-09-05T07:21:36.378Z"
+  },
+  {
+    "id": "ae200255-a0f3-454e-bf98-d33c92c2fd2b",
+    "userId": "ebd26b28-3ebe-4003-932e-2bfef2c2159d",
+    "title": "sdftyu",
+    "description": "fsgdg",
+    "completed": false,
+    "priority": "medium",
+    "dueDate": "2026-09-16",
+    "createdAt": "2026-09-05T07:30:12.481Z",
+    "updatedAt": "2026-10-19T12:20:27.194Z",
+    "assignedTo": "18e816d8-1196-497a-b302-63e513e96fe0"
+  }
+]

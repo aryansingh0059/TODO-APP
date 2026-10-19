@@ -1,0 +1,51 @@
+[
+  {
+    "id": "ac4d039d-b83d-45e4-967a-6c4b3677f491",
+    "name": "Demo User",
+    "email": "demo@todoapp.local",
+    "passwordHash": "$2a$10$ZvFLaw.EQZP7uIDK59U/f.A1H/1D7BauXi9yJv/mtMcqksHA9Yz1G",
+    "createdAt": "2026-08-31T21:32:24.431Z"
+  },
+  {
+    "id": "683de1d5-7844-4bf8-9aca-123f208dc0d4",
+    "name": "Interviewer",
+    "email": "interviewer@todoapp.local",
+    "passwordHash": "$2a$10$O7JZ.YEssjr/1r0e5TnQhOTzqzZWbkACFNkZZpGKizKbPdMTV5/oi",
+    "createdAt": "2026-08-31T21:32:24.506Z"
+  },
+  {
+    "id": "e040637f-ad75-4322-948d-9b2b130af02f",
+    "name": "UI Test",
+    "email": "uitest_1788271430913@test.local",
+    "passwordHash": "$2a$10$s02KKIRjiDrKokhF/p4TOuAvls375SQU7DE0/hfAVaOovC8yCoxB6",
+    "createdAt": "2026-09-01T14:03:51.055Z"
+  },
+  {
+    "id": "18e816d8-1196-497a-b302-63e513e96fe0",
+    "name": "Final Reg",
+    "email": "finalreg_1788273524189@test.local",
+    "passwordHash": "$2a$10$heZJMWJrOZQ/rGjVaLhalu0vtET11eVYOq8390oujy.ZoLbDrgiti",
+    "createdAt": "2026-09-01T14:38:44.297Z"
+  },
+  {
+    "id": "31a68ec8-fa24-4032-84bd-f6d8566bfc78",
+    "name": "Aryan Singh",
+    "email": "aryansinghclub1212@gmail.com",
+    "passwordHash": "$2a$10$R051E8CCL6KRHMhn8jEcQ.RMnxvbx3STOzM.3aqQsIv9Z8fgF4jaq",
+    "createdAt": "2026-09-01T14:46:02.981Z"
+  },
+  {
+    "id": "8b3896b2-0dd8-4143-bc77-e0daf337c257",
+    "name": "Rahul Sharma",
+    "email": "rahul@todoapp.local",
+    "passwordHash": "$2a$10$kxl4mUGwv1vYjl9YxqlF8uTqHn.7Jfpyxx6h.uidl8jqMzSWc9a4i",
+    "createdAt": "2026-09-05T07:19:32.090Z"
+  },
+  {
+    "id": "ebd26b28-3ebe-4003-932e-2bfef2c2159d",
+    "name": "Aryan Kumar",
+    "email": "aryankumar17055@gmail.com",
+    "passwordHash": "$2a$10$X3MCdtlfqWBK/n5njw4LA.KZCAcDu3RZnAZB7doUbKzM5H754haS.",
+    "createdAt": "2026-09-05T07:29:58.193Z"
+  }
+]
